@@ -22,7 +22,7 @@ A purpose-built job-search tool for **AI infrastructure, LLM infrastructure, and
 - `.agents/skills/` - portal search CLIs (`linkedin-search`, `freehire-search`), zero-dependency, run via `bun`.
 - `.claude/skills/` - `ai-infra-role-classifier` (the fit rubric), `jd-insights-extractor` (per-JD prep-signal extraction schema), `web-research` (retrieval + ghost-job playbook).
 - `.claude/commands/` - `/add-portal` (scaffold a new portal CLI), `/search-roles` (search the track-list, filter, and classify against the AI-infra rubric - the single entry point for finding roles), `/summarize-roles` (aggregate prep signal across all high-fit roles found so far).
-- `prep-briefs/` - dated, regeneratable snapshot reports from `/summarize-roles` (tracked in git - these are a deliverable, not local state).
+- `prep-briefs/` - dated, regeneratable HTML snapshot reports from `/summarize-roles` (tracked in git - these are a deliverable, not local state).
 - `tools/` - `robots_check.py` (compliance gate for the browser-header retry), `lint_skills.py` (skill/command file linter).
 
 ## How to Use
@@ -40,7 +40,7 @@ You don't need to know the company's ATS, ID, or anything technical - the agent 
   - `/search-roles all` - search every active company on the track-list
   - `/search-roles health` - check whether the portal CLIs are still working, without doing a full search
 - **`/add-portal`** - scaffold a new portal search CLI when a company can't be resolved through freehire, LinkedIn, or a direct Greenhouse/Ashby API call. Investigates the target site, generates a CLI following this repo's portal-skill contract, and test-runs it against a live query before registering it.
-- **`/summarize-roles [company | --include-adjacent]`** - once `/search-roles` has found some `strong_fit` roles, this reads their full JDs and aggregates prep signal across all of them: technical and soft skills framed as what to prepare (not a relabeled requirements list), frequency stats ("N of M high-fit JDs mention X"), and named open-source projects/papers/techniques worth reading or building toward. Writes a dated report to `prep-briefs/`.
+- **`/summarize-roles [company | --include-adjacent]`** - once `/search-roles` has found some `strong_fit` roles, this reads their full JDs and aggregates prep signal across all of them: technical and soft skills framed as what to prepare (not a relabeled requirements list), frequency stats ("N of M high-fit JDs mention X"), and named open-source projects/papers/techniques worth reading or building toward. Writes a dated HTML report to `prep-briefs/`, viewable directly in a browser.
 
 ## Contributions Welcome
 

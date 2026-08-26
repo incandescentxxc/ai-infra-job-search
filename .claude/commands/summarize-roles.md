@@ -1,6 +1,6 @@
 # /summarize-roles - Aggregate Prep Signal Across High-Fit Roles
 
-`/search-roles` finds and classifies roles. `/summarize-roles` is the next step: it reads the full JD of every `strong_fit` posting already found, extracts candidate-prep signal from each with `.claude/skills/jd-insights-extractor/SKILL.md`, and aggregates across all of them into one report - technical and soft skills to prepare, quantitative frequency stats, and named projects/techniques worth reading or building toward.
+`/search-roles` finds and classifies roles. `/summarize-roles` is the next step: it reads the full JD of every `strong_fit` posting already found, extracts candidate-prep signal from each with `.claude/skills/jd-insights-extractor/SKILL.md`, and aggregates across all of them into one **HTML report** - technical and soft skills to prepare, quantitative frequency stats, and named projects/techniques worth reading or building toward.
 
 This command never searches for new roles - it only works with what `/search-roles` has already classified in `scrape_state/seen_roles.json`.
 
@@ -44,30 +44,53 @@ Dispatch parallel `general-purpose` agents via the Agent tool, ~5 JDs per agent 
 
 ---
 
-## Step 5: Write the Report
+## Step 5: Write the Report (HTML)
 
-Write to `prep-briefs/<scope>-<YYYY-MM-DD>.md` (`<scope>` is the company name or `all-companies`), creating the directory if needed:
+Write a **self-contained HTML file** to `prep-briefs/<scope>-<YYYY-MM-DD>.html` (`<scope>` is the company name, kebab-cased, or `all-companies`), creating the directory if needed. Self-contained means no external stylesheets, fonts, or scripts - everything inline in one file, so it opens correctly straight from disk or from git.
 
-```markdown
-# Prep Brief: <scope> - <date>
+Structure:
 
-Aggregated from N strong-fit roles across <company list>. <Note --include-adjacent if used, and any roles dropped in Step 2.>
+```html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Prep Brief: <scope> - <date></title>
+<style>
+  /* Inline CSS only. Support both light and dark viewing:
+     @media (prefers-color-scheme: dark) { ... } alongside a light default.
+     Keep it plain: system font stack, a max-width content column, simple
+     table styling with borders and zebra striping, generous spacing.
+     No JS. */
+</style>
+</head>
+<body>
+  <h1>Prep Brief: <scope></h1>
+  <p class="meta">Generated <date> - aggregated from N strong-fit roles across <company list>. <Note --include-adjacent if used, and any roles dropped in Step 2.></p>
 
-## Technical Skills to Prepare
-(ranked by frequency, each with its %/count and which companies mentioned it)
+  <h2>Quantitative Insights</h2>
+  <ul><!-- the frequency sentences from Step 4.4, e.g. "3 of 4 high-fit JDs (75%) mention speculative decoding" --></ul>
 
-## Soft Skills to Prepare
-(thematic clusters)
+  <h2>Notable Projects, Papers, and Techniques to Read or Reference</h2>
+  <table><!-- columns: Name | Context | Mentioned By (company/role) -->
+  </table>
 
-## Quantitative Insights
-(the frequency sentences from Step 4.4)
+  <h2>Technical Skills to Prepare</h2>
+  <table><!-- columns: Skill (candidate-prep phrasing) | Mentioned In (count/%) | Companies -->
+  </table>
 
-## Notable Projects, Papers, and Techniques to Read or Reference
-(name, context, which company/role mentioned it - framed as: this is what to read, cite, or build toward for interview/project-experience prep)
+  <h2>Soft Skills to Prepare</h2>
+  <table><!-- columns: Skill (candidate-prep phrasing) | Mentioned In (count) | Companies -->
+  </table>
 
-## Source Roles
-(table: title, company, URL, verdict - full traceability back to the postings this brief was built from)
+  <h2>Source Roles</h2>
+  <table><!-- columns: Title | Company | Verdict | Link (<a href> to the posting) - full traceability -->
+  </table>
+</body>
+</html>
 ```
+
+Order sections quantitative-insights-and-projects first, then the skill tables - the frequency stats and named projects are the highest-value, least-obvious output and shouldn't be buried under two skill tables first.
 
 This file is a dated snapshot, not live state - it will go stale as the pool grows or JDs change, which is exactly why it's dated and disposable to regenerate rather than edited in place.
 
@@ -75,7 +98,7 @@ This file is a dated snapshot, not live state - it will go stale as the pool gro
 
 ## Step 6: Present
 
-Show the user the same content as the written file, condensed - lead with the quantitative insights and named projects (the highest-value, least-obvious output), then the ranked skill lists. Tell them where the full report was saved.
+Show the user the same content as the written file, condensed as chat-readable text/tables (not the raw HTML source) - lead with the quantitative insights and named projects, then the ranked skill lists. Tell them where the full HTML report was saved and that it can be opened directly in a browser.
 
 ---
 
