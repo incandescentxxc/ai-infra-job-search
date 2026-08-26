@@ -1,0 +1,251 @@
+{
+  "companies": {
+    "openai": {
+      "name": "OpenAI",
+      "careers_url": "https://openai.com/careers/",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved. Try freehire --company facet lookup or /add-portal against the careers URL on first scrape."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "anthropic": {
+      "name": "Anthropic",
+      "careers_url": "https://www.anthropic.com/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "anysphere": {
+      "name": "Anysphere (Cursor)",
+      "careers_url": "https://anysphere.co/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "databricks": {
+      "name": "Databricks",
+      "careers_url": "https://www.databricks.com/company/careers",
+      "ats": "greenhouse",
+      "portal_resolution": {
+        "freehire_company_slug": "databricks",
+        "notes": "Verified working via freehire --company databricks. Postings resolve to databricks.com/company/careers/open-positions/job?gh_jid=<id>."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": "2026-08-25"
+    },
+    "together-ai": {
+      "name": "Together AI",
+      "careers_url": "https://www.together.ai/careers",
+      "ats": "greenhouse",
+      "portal_resolution": {
+        "freehire_company_slug": "together-ai",
+        "notes": "Verified working via freehire --company together-ai. Postings resolve to job-boards.greenhouse.io/togetherai/jobs/<id>. IMPORTANT: freehire tags most of this company's listings with a bulk-index date (observed 2026-07-10, 2026-07-31) unrelated to real posting freshness - do not apply --jobage on company-scoped runs."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": "2026-08-25"
+    },
+    "fireworks-ai": {
+      "name": "Fireworks AI",
+      "careers_url": "https://fireworks.ai/careers",
+      "ats": "ashby (migrating from greenhouse)",
+      "portal_resolution": {
+        "freehire_company_slug": "fireworks-ai",
+        "notes": "Verified working via freehire --company fireworks-ai. CAUTION: at least one freehire-cached URL pointed at a dead job-boards.greenhouse.io link (404) while the same role was live on jobs.ashbyhq.com/fireworks/<different-id> - this company appears to be mid-migration between ATSs. Always verify a freehire-sourced Fireworks URL resolves (see .claude/skills/web-research/SKILL.md's ghost-job section) before presenting it; cross-check against jobs.ashbyhq.com/fireworks/ and job-boards.greenhouse.io/fireworksai/ directly if in doubt. Also tags most listings with a bulk-index date (observed 2026-07-31) unrelated to real freshness - do not apply --jobage on company-scoped runs. CONFIRMED 2026-08-26: every Greenhouse-sourced URL in freehire results for this company 404s (9/9 spot-checked) - the company has fully migrated to Ashby. Always cross-reference api.ashbyhq.com/posting-api/job-board/fireworks for any freehire result whose url contains job-boards.greenhouse.io/fireworksai before presenting it."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": "2026-08-26"
+    },
+    "baseten": {
+      "name": "Baseten",
+      "careers_url": "https://www.baseten.co/careers/",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "runpod": {
+      "name": "Runpod",
+      "careers_url": "https://www.runpod.io/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "modal": {
+      "name": "Modal Labs",
+      "careers_url": "https://modal.com/careers",
+      "ats": "ashby",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Confirmed on Ashby directly (jobs.ashbyhq.com/modal/<id>) this session; not yet resolved through freehire's --company facet. Try that first on next scrape, else use Ashby's posting-api directly: api.ashbyhq.com/posting-api/job-board/modal"
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "lambda": {
+      "name": "Lambda",
+      "careers_url": "https://lambdalabs.com/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "anyscale": {
+      "name": "Anyscale",
+      "careers_url": "https://www.anyscale.com/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "datology": {
+      "name": "Datology AI",
+      "careers_url": "https://www.datologyai.com/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved. Added by user request after the initial watchlist."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user request",
+      "last_scraped_date": null
+    },
+    "google": {
+      "name": "Google",
+      "careers_url": "https://careers.google.com",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Large surface area - on first scrape, narrow with keyword queries (e.g. 'DeepMind', 'Cloud AI', 'TPU') rather than pulling the whole company's listings."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "meta": {
+      "name": "Meta",
+      "careers_url": "https://www.metacareers.com",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Large surface area - narrow with keyword queries on first scrape."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "xai": {
+      "name": "xAI",
+      "careers_url": "https://x.ai/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "redhat": {
+      "name": "Red Hat",
+      "careers_url": "https://www.redhat.com/en/jobs",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Not yet resolved."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "nebius": {
+      "name": "Nebius",
+      "careers_url": "https://careers.nebius.com",
+      "ats": "greenhouse",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Confirmed Greenhouse-hosted this session (careers.nebius.com/?gh_jid=<id>, resolvable via boards-api.greenhouse.io/v1/boards/nebius/jobs/<id>). Not yet resolved through freehire's --company facet - try that first on next scrape."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "nvidia": {
+      "name": "NVIDIA",
+      "careers_url": "https://nvidia.com/careers",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Large surface area - narrow with keyword queries on first scrape."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    },
+    "aws": {
+      "name": "AWS",
+      "careers_url": "https://aws.amazon.com/careers/",
+      "ats": "unverified",
+      "portal_resolution": {
+        "freehire_company_slug": null,
+        "notes": "Large surface area - narrow with keyword queries (e.g. 'Bedrock', 'Trainium', 'Inferentia') on first scrape."
+      },
+      "status": "active",
+      "added_date": "2026-08-26",
+      "added_source": "user-provided (initial watchlist)",
+      "last_scraped_date": null
+    }
+  }
+}
