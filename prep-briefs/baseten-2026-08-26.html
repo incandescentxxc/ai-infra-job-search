@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Prep Brief: Baseten - 2026-08-26</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #5f6368;
+    --border: #e0e0e0;
+    --stripe: #f7f7f8;
+    --accent: #0f62fe;
+    --tag-bg: #eef2ff;
+    --tag-fg: #3730a3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --fg: #e8e8e8;
+      --muted: #9aa0a6;
+      --border: #2a2d33;
+      --stripe: #1b1e23;
+      --accent: #6ea8ff;
+      --tag-bg: #232849;
+      --tag-fg: #b7c1ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2.5rem 1.5rem 4rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 1.75rem; margin: 0 0 0.25rem; }
+  h2 {
+    font-size: 1.2rem;
+    margin: 2.5rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--border);
+  }
+  p.meta { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.5rem; }
+  ul.insights { padding-left: 1.2rem; }
+  ul.insights li { margin-bottom: 0.5rem; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    overflow-wrap: break-word;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th { color: var(--muted); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.02em; }
+  tbody tr:nth-child(odd) { background: var(--stripe); }
+  .freq { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-fg);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.8rem;
+    margin: 0.1rem 0.25rem 0.1rem 0;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .table-scroll { overflow-x: auto; }
+  code { background: var(--stripe); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.88em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Prep Brief: Baseten</h1>
+  <p class="meta">Generated 2026-08-26 &middot; aggregated from 9 strong-fit roles at Baseten (all currently open, source: Ashby API, department-filtered)</p>
+
+  <h2>Quantitative Insights</h2>
+  <ul class="insights">
+    <li><strong>4 of 9 roles (44%)</strong> require GPU-kernel-level performance work &mdash; CUDA, PTX assembly, tensor cores, memory coalescing, warp-level programming.</li>
+    <li><strong>4 of 9 roles (44%)</strong> require Kubernetes-based model-serving orchestration.</li>
+    <li><strong>4 of 9 roles (44%)</strong> touch core LLM inference optimization techniques &mdash; quantization, speculative decoding, KV-cache reuse, chunked prefill.</li>
+    <li><strong>4 of 9 roles (44%)</strong> require distributed-systems fundamentals for large-scale serving &mdash; scheduling, routing, autoscaling, multi-node coordination.</li>
+    <li><strong>3 of 9 roles (33%)</strong> expect hands-on benchmarking/profiling tooling experience (Nsight Systems/Compute, PyTorch Profiler, custom benchmark suites).</li>
+    <li><strong>3 of 9 roles (33%)</strong> expect production reliability/observability ownership &mdash; monitoring, SLOs, tail latency (p95/p99).</li>
+    <li><strong>2 of 9 roles (22%)</strong> require GPU networking / multi-GPU communication depth &mdash; RDMA, NCCL, InfiniBand, NVLink.</li>
+    <li><strong>2 of 9 roles (22%)</strong> explicitly call out familiarity with open-source inference runtimes (vLLM, SGLang, TensorRT-LLM).</li>
+    <li><strong>6 of 9 roles (67%)</strong> emphasize cross-team collaboration with Model Performance, research, or Forward Deployed engineering &mdash; a small-company signal that these teams work in close contact rather than in silos.</li>
+  </ul>
+
+  <h2>Notable Projects, Papers, and Techniques to Read or Reference</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Name</th><th>Context</th><th>Mentioned By</th></tr></thead>
+    <tbody>
+      <tr><td>Baseten Inference Stack</td><td>Baseten's own distributed runtime for large-scale LLM inference &mdash; the product itself; worth reading their engineering blog on it</td><td>Inference Stack, GPU Kernels, Model Performance</td></tr>
+      <tr><td>NVIDIA Dynamo</td><td>Baseten published "How Baseten Achieved 2x Faster Inference With NVIDIA Dynamo" &mdash; concrete case study worth reading before an interview</td><td>Baseten Inference Stack</td></tr>
+      <tr><td>Multi-Cloud Capacity Management (MCM)</td><td>Baseten's internal system for capacity across cloud/self-hosted/hybrid deployments; also has a public blog post</td><td>Infrastructure, Inference Stack</td></tr>
+      <tr><td>InferenceMAX</td><td>Open-source benchmarking tool Baseten builds/contributes to for model evaluation and performance analysis</td><td>Model Performance Systems</td></tr>
+      <tr><td>genai-bench</td><td>Open-source benchmarking tool for automated model eval/analysis, same team as InferenceMAX</td><td>Model Performance Systems</td></tr>
+      <tr><td>TensorRT / TensorRT-LLM</td><td>NVIDIA's inference optimization runtime &mdash; deep internals knowledge expected ("deep dive into underlying codebases")</td><td>Model Performance, Model Products</td></tr>
+      <tr><td>vLLM / SGLang / TGI</td><td>Open-source LLM inference engines &mdash; direct experience or contributions are called out as a plus</td><td>Model Performance, Model Products</td></tr>
+      <tr><td>Flash Attention</td><td>Referenced as a nice-to-have attention-optimization technique for the kernel-engineering role</td><td>GPU Kernels</td></tr>
+      <tr><td>Cutlass / Triton / Thrust / CUB</td><td>GPU kernel libraries &mdash; familiarity is a plus for kernel-level roles</td><td>GPU Kernels</td></tr>
+      <tr><td>NCCL / NVSHMEM</td><td>GPU communication libraries; the GPU Networking role expects writing custom communication kernels with these</td><td>Training Infrastructure, GPU Networking</td></tr>
+      <tr><td>Megatron / NeMo-RL / VeRL / Axolotl / HF Trainer</td><td>Open-source training frameworks named as a plus for the training infra role</td><td>Training Infrastructure</td></tr>
+      <tr><td>FSDP / DeepSpeed</td><td>Distributed training techniques (sharding strategies) named as a plus</td><td>Training Infrastructure</td></tr>
+      <tr><td>Orpheus TTS (Canopy Labs)</td><td>Baseten publicly announced powering inference for this voice model &mdash; a concrete customer case study to know</td><td>Voice AI</td></tr>
+      <tr><td>"World's fastest Whisper"</td><td>Baseten's own optimized Whisper deployment with streaming + diarization &mdash; another public case study</td><td>Voice AI</td></tr>
+      <tr><td>RDMA / RoCE / InfiniBand</td><td>Networking protocols central to the GPU Networking role &mdash; explicitly framed as replacing TCP/IP in the inference stack</td><td>GPU Networking</td></tr>
+      <tr><td>Temporal / Airflow</td><td>Workload orchestration platforms named as a plus for training infra</td><td>Training Infrastructure</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Technical Skills to Prepare</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Skill (prep-framed)</th><th>Mentioned In</th><th>Roles</th></tr></thead>
+    <tbody>
+      <tr><td>Be ready to discuss GPU-kernel-level optimization &mdash; CUDA, PTX assembly, memory coalescing, warp-level programming, tensor core acceleration, quantization (FP8/FP4)</td><td class="freq">4/9 (44%)</td><td>GPU Kernels, Model Performance, Model Products, Model Performance Systems</td></tr>
+      <tr><td>Be ready to speak to Kubernetes-based model-serving deployments &mdash; deployment automation, scaling, resource management for ML workloads</td><td class="freq">4/9 (44%)</td><td>Infrastructure, Training Infrastructure, Baseten Inference Stack, (Model Products &ndash; nice-to-have)</td></tr>
+      <tr><td>Understand the core LLM-inference-optimization toolkit well enough to discuss tradeoffs: quantization, speculative decoding, KV-cache reuse/offload, chunked prefill</td><td class="freq">4/9 (44%)</td><td>Model Performance, GPU Kernels, Model Products, Model Performance Systems</td></tr>
+      <tr><td>Be ready to design distributed-systems primitives for large-scale serving &mdash; scheduling, routing, autoscaling, multi-node coordination</td><td class="freq">4/9 (44%)</td><td>Infrastructure, Training Infrastructure, GPU Networking, Baseten Inference Stack</td></tr>
+      <tr><td>Have hands-on experience with performance-profiling tooling &mdash; Nsight Systems/Compute, PyTorch Profiler, and building custom benchmark suites</td><td class="freq">3/9 (33%)</td><td>Model Performance, GPU Kernels, Model Performance Systems</td></tr>
+      <tr><td>Be ready to own production reliability and observability for an inference system &mdash; monitoring, SLOs, tail latency (p95/p99) management</td><td class="freq">3/9 (33%)</td><td>Infrastructure, Voice AI, Baseten Inference Stack</td></tr>
+      <tr><td>Have depth in GPU networking / multi-GPU communication &mdash; RDMA, NCCL, InfiniBand, NVLink, custom communication kernels</td><td class="freq">2/9 (22%)</td><td>Model Products, GPU Networking</td></tr>
+      <tr><td>Be able to speak concretely about open-source inference runtimes &mdash; vLLM, SGLang, TensorRT-LLM (usage or, ideally, contributions)</td><td class="freq">2/9 (22%)</td><td>Model Performance, Model Products</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Soft Skills to Prepare</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Skill (prep-framed)</th><th>Mentioned In</th></tr></thead>
+    <tbody>
+      <tr><td>Be ready to describe close cross-team collaboration &mdash; these roles sit at the intersection of Model Performance, research/model teams, and Forward Deployed Engineering; expect to explain how you'd work with adjacent specialists rather than in isolation</td><td class="freq">6/9 (67%)</td></tr>
+      <tr><td>Be ready to talk about owning a system end-to-end &mdash; from architecture and design through implementation, rollout, and long-term operation, not just shipping a feature</td><td class="freq">3/9 (33%)</td></tr>
+      <tr><td>Be ready to discuss mentoring or technical leadership &mdash; several roles expect driving cross-team technical discussions and mentoring less senior engineers</td><td class="freq">3/9 (33%)</td></tr>
+      <tr><td>Have a design-doc-writing habit &mdash; strong written communication for design docs is explicitly called out as a differentiator</td><td class="freq">2/9 (22%)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Source Roles</h2>
+  <div class="table-scroll">
+  <table>
+    <thead><tr><th>Title</th><th>Verdict</th><th>Link</th></tr></thead>
+    <tbody>
+      <tr><td>Software Engineer - Model Performance</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/d29e748c-7209-460d-a024-8f77ae0a3d4d">Link</a></td></tr>
+      <tr><td>Software Engineer - Infrastructure</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/ae64d1d4-7b0a-4be4-8d77-7f5ce63849a7">Link</a></td></tr>
+      <tr><td>Software Engineer - GPU Kernels</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/ddb5bc98-6116-49a2-802e-1c05398663f1">Link</a></td></tr>
+      <tr><td>Software Engineer - Training Infrastructure</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/6f947409-2bc0-491a-81b3-507cdc95df85">Link</a></td></tr>
+      <tr><td>Software Engineer - Model Products</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/2fdb06a3-ea27-40ee-bf64-0d51e01b8464">Link</a></td></tr>
+      <tr><td>Software Engineer - Model Performance Systems</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/75d7beac-0298-40fa-b206-2e0c0c08a64f">Link</a></td></tr>
+      <tr><td>Software Engineer - GPU Networking &amp; Distributed Systems</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/1f7d7fda-5540-4205-890b-cdbf774f0814">Link</a></td></tr>
+      <tr><td>Software Engineer - Voice AI (Inference Runtime)</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/6e396eb7-acb3-436a-89ec-05e755c477f2">Link</a></td></tr>
+      <tr><td>Software Engineer - Baseten Inference Stack</td><td>Strong fit</td><td><a href="https://jobs.ashbyhq.com/baseten/c8701794-bdc1-4932-bffa-a444ce57ed73">Link</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</body>
+</html>
