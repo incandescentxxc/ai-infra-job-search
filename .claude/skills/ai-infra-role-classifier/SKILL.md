@@ -15,8 +15,8 @@ Titles lie in both directions:
 
 ## Verdict scale
 
-- **Strong fit** - Core AI/LLM infrastructure: inference serving, model serving platforms, training infrastructure, GPU/cluster orchestration, ML platform/feature infra, distributed systems underpinning model training or serving.
-- **Adjacent** - Real infra work, but with a load-bearing gap or a different center of gravity: e.g. deep GPU-kernel/CUDA optimization work for a candidate with no CUDA background, or a role that's central to "inference" only in the sense that it keeps the surrounding platform reliable (SRE/reliability for an inference company) rather than building the inference stack itself.
+- **Strong fit** - Core AI/LLM infrastructure at any layer of the stack: inference serving, model serving platforms, training infrastructure, GPU/cluster orchestration, ML platform/feature infra, distributed systems underpinning model training or serving. **This explicitly includes deep GPU-kernel/CUDA/HPC-level work** (kernel optimization, GPU networking/RDMA, low-level performance systems) - the hardware/kernel layer is a core part of the AI infra stack, not a diminished tier. Requiring deep systems knowledge is not a reason to downgrade a role; it's a reason it's a serious infra role.
+- **Adjacent** - Real infra work, but the role's center of gravity is *operating* or *supporting* the platform rather than *building* the inference/training/serving stack itself - e.g. SRE/reliability engineering for an inference platform, general cloud-platform/deployment engineering, or a role split between infra and a genuinely separate discipline (like open-ended ML research).
 - **Excluded** - Fails one of the hard-exclude patterns below, or is a different domain entirely (sales, marketing, recruiting, product design, finance, facilities, physical data-center design/construction).
 
 ## Hard-exclude patterns (apply regardless of company or how good the rest of the title looks)
@@ -43,9 +43,9 @@ Titles lie in both directions:
 | Senior Software Engineer - Together Cloud Infrastructure (Together AI) | Strong fit | GPU cluster IaaS, Kubernetes, observability |
 | Machine Learning Engineer - Inference (Together AI) | Strong fit | Production inference-engine systems |
 | Member of Technical Staff - Reliability Engineering (Fireworks AI) | Adjacent | SRE/reliability for an inference platform - keeps it running, doesn't build the inference stack itself |
-| LLM Inference Frameworks and Optimization Engineer (Together AI) | Adjacent | Deep CUDA/TensorRT/MoE-parallelism kernel work - core to inference but requires GPU-kernel depth many infra engineers lack |
-| Member of Technical Staff, Performance Optimization (Fireworks AI) | Adjacent | Same pattern - CUDA/Triton kernel-level, HPC-specific |
-| Systems Research Engineer, GPU Programming (Together AI) | Adjacent | Same GPU-kernel depth pattern |
+| LLM Inference Frameworks and Optimization Engineer (Together AI) | Strong fit | Deep CUDA/TensorRT/MoE-parallelism kernel work - the hardware/kernel layer is core AI infra, not a diminished tier |
+| Member of Technical Staff, Performance Optimization (Fireworks AI) | Strong fit | CUDA/Triton kernel-level, HPC-specific - core to inference performance |
+| Systems Research Engineer, GPU Programming (Together AI) | Strong fit | GPU-kernel depth - core AI infra at the hardware layer |
 | Member of Technical Staff, Research (Fireworks AI) | Excluded (research scientist) | PhD-preferred, foundational-research framing, not infra-engineering |
 | MTS, Research Engineer (Fireworks AI) | Adjacent | Split role: research fundamentals (loss landscapes, novel architectures) plus distributed training infra - genuinely dual-scope, judge case by case |
 | Member of Technical Staff, Data Platform Engineer (Fireworks AI) | Excluded (misleading title) | Actually Order-to-Cash billing/revenue engineering |
@@ -67,7 +67,7 @@ Titles lie in both directions:
 | Software Engineer - Training Product (Baseten) | Excluded (product-scoped) | JD explicitly frames it as "customer-obsessed," shipping "products," architecting "API and UI down to infrastructure" |
 | Software Engineer - Billing & Internal Tooling (Baseten) | Excluded (finance/billing) | Owns pricing/billing/revenue infrastructure - same pattern as Fireworks' "Data Platform Engineer" |
 | Software Engineer - Capacity (Baseten) | Excluded (internal business tooling) | Manages customer lifecycle/SLAs on the Internal Tooling team - business operations tooling, not core AI infra |
-| Software Engineer - GPU Kernels / GPU Networking & Distributed Systems / Model Performance Systems (Baseten) | Adjacent | Deep GPU-kernel/HPC/RDMA specialization - same "different center of gravity" pattern as Together AI's LLM Inference Frameworks and Optimization Engineer |
+| Software Engineer - GPU Kernels / GPU Networking & Distributed Systems / Model Performance Systems (Baseten) | Strong fit | Deep GPU-kernel/HPC/RDMA specialization - the hardware/kernel layer is core AI infra, not a diminished tier (corrected 2026-08-26 - previously miscategorized as Adjacent) |
 | Site Reliability Engineer / Cloud Platform Engineer (Baseten) | Adjacent | Day-2 ops and general platform reliability for the ML infra platform - keeps it running, not building the inference stack itself |
 | Engineering Manager, Runtime Fabric / Engineering Manager, Cloud Platform (Baseten) | Excluded (management track) | Confirmed exclusion per pattern 6 above, even though both teams are squarely core AI infra by domain |
 
