@@ -8,20 +8,21 @@ A purpose-built job-search tool for **AI infrastructure, LLM infrastructure, and
 - Searches each tracked company's open roles via portal CLIs (LinkedIn, freehire.me) or direct ATS APIs (Greenhouse, Ashby).
 - Classifies roles against an AI/LLM-infra-specific rubric: distinguishes genuine infra/inference/serving roles from adjacent-but-different roles (product engineering, security engineering, forward-deployed/customer-facing roles, research-scientist roles, and Staff-tier seniority) - by reading the actual job description, not just the title.
 - Batch-scores newly found roles so a human can triage a shortlist instead of reading every posting.
+- Aggregates prep signal across all high-fit postings: technical and soft skills reframed as what to prepare (not a relabeled requirements list), frequency stats ("N of M high-fit JDs mention X"), and named open-source projects/papers/techniques worth reading or building toward for interviews and project experience.
 
 ## What this does NOT do (yet, by design)
 
 - No candidate-specific fit scoring, CV tailoring, or cover letters - this is a market-mapping tool, not a personal application assistant.
 - No open-ended "find AI infra companies not on the list" discovery - the track-list is curated and grown deliberately, not auto-expanded.
-- No JD-to-resume-prep summarization - out of scope for now.
 
 ## Repo structure
 
 - `company-tracker/companies.md` - human-editable list of tracked companies + careers page URLs + a one-line note each. Keep this light and skimmable.
 - `company-tracker/track_list.json` - machine state per company: ATS/portal used, resolution slug, status, when added and why, when last scraped. The agent reads and updates this; humans mostly edit `companies.md` and let the agent reconcile.
 - `.agents/skills/` - portal search CLIs (`linkedin-search`, `freehire-search`), zero-dependency, run via `bun`.
-- `.claude/skills/` - the role-classification rubric (AI/LLM infra fit).
-- `.claude/commands/` - `/add-portal` (scaffold a new portal CLI), `/search-roles` (search the track-list, filter, and classify against the AI-infra rubric - the single entry point).
+- `.claude/skills/` - `ai-infra-role-classifier` (the fit rubric), `jd-insights-extractor` (per-JD prep-signal extraction schema), `web-research` (retrieval + ghost-job playbook).
+- `.claude/commands/` - `/add-portal` (scaffold a new portal CLI), `/search-roles` (search the track-list, filter, and classify against the AI-infra rubric - the single entry point for finding roles), `/summarize-roles` (aggregate prep signal across all high-fit roles found so far).
+- `prep-briefs/` - dated, regeneratable snapshot reports from `/summarize-roles` (tracked in git - these are a deliverable, not local state).
 - `tools/` - `robots_check.py` (compliance gate for the browser-header retry), `lint_skills.py` (skill/command file linter).
 
 ## How to Use
@@ -39,6 +40,7 @@ You don't need to know the company's ATS, ID, or anything technical - the agent 
   - `/search-roles all` - search every active company on the track-list
   - `/search-roles health` - check whether the portal CLIs are still working, without doing a full search
 - **`/add-portal`** - scaffold a new portal search CLI when a company can't be resolved through freehire, LinkedIn, or a direct Greenhouse/Ashby API call. Investigates the target site, generates a CLI following this repo's portal-skill contract, and test-runs it against a live query before registering it.
+- **`/summarize-roles [company | --include-adjacent]`** - once `/search-roles` has found some `strong_fit` roles, this reads their full JDs and aggregates prep signal across all of them: technical and soft skills framed as what to prepare (not a relabeled requirements list), frequency stats ("N of M high-fit JDs mention X"), and named open-source projects/papers/techniques worth reading or building toward. Writes a dated report to `prep-briefs/`.
 
 ## Contributions Welcome
 
