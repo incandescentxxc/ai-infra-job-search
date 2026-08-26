@@ -72,8 +72,26 @@ Structure:
   <ul><!-- the frequency sentences from Step 4.4, e.g. "3 of 4 high-fit JDs (75%) mention speculative decoding" --></ul>
 
   <h2>Notable Projects, Papers, and Techniques to Read or Reference</h2>
-  <table><!-- columns: Name | Context | Mentioned By (company/role) -->
-  </table>
+  <!-- Split into three subsections by kind, not lumped into one table:
+       - Concepts: a named technique/idea with no single canonical repo to send someone to
+         (e.g. "speculative decoding", "Flash Attention", "disaggregated prefill/decode").
+         Columns: Concept | Category note (e.g. "inference optimization technique",
+         "GPU networking protocol") | Mentioned By (role title, linked to its posting URL).
+       - Repositories: a named open-source project with an actual repo. Columns: Repository
+         (linked to its real repo URL - verify the URL resolves before writing it, never guess) |
+         Category note (e.g. "serving framework", "GPU kernel library", "training framework",
+         "workflow orchestration") | Mentioned By (role title, linked to its posting URL).
+       - Blogs: the target company's own engineering/research blog posts or case studies
+         referenced in a JD (e.g. a "such-and-such achieved 2x faster inference with X" post).
+         Columns: Post title (linked to the actual blog URL - pull it from the JD's own hyperlinks
+         or embedded text, never fabricate one) | Category note (e.g. "case study: inference
+         performance", "product announcement") | Mentioned By (role title, linked to its posting URL). -->
+  <h3>Concepts</h3>
+  <table><!-- Concept | Category note | Mentioned By --></table>
+  <h3>Repositories</h3>
+  <table><!-- Repository (linked) | Category note | Mentioned By --></table>
+  <h3>Blogs</h3>
+  <table><!-- Post (linked) | Category note | Mentioned By --></table>
 
   <h2>Technical Skills to Prepare</h2>
   <table><!-- columns: Skill (candidate-prep phrasing) | Mentioned In (count/%) | Companies -->

@@ -22,7 +22,7 @@ A purpose-built job-search tool for **AI infrastructure, LLM infrastructure, and
 - `.agents/skills/` - portal search CLIs (`linkedin-search`, `freehire-search`), zero-dependency, run via `bun`.
 - `.claude/skills/` - `ai-infra-role-classifier` (the fit rubric), `jd-insights-extractor` (per-JD prep-signal extraction schema), `web-research` (retrieval + ghost-job playbook).
 - `.claude/commands/` - `/add-portal` (scaffold a new portal CLI), `/search-roles` (search the track-list, filter, and classify against the AI-infra rubric - the single entry point for finding roles), `/summarize-roles` (aggregate prep signal across all high-fit roles found so far).
-- `prep-briefs/` - dated, regeneratable HTML snapshot reports from `/summarize-roles` (tracked in git - these are a deliverable, not local state).
+- `prep-briefs/` - dated, regeneratable HTML snapshot reports from `/summarize-roles` - local only (gitignored), like `scrape_state/`; regenerate as needed rather than syncing across machines.
 - `tools/` - `robots_check.py` (compliance gate for the browser-header retry), `lint_skills.py` (skill/command file linter).
 
 ## How to Use
