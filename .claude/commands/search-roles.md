@@ -19,36 +19,40 @@ Internally this runs in two phases (a cheap title-level pass, then an expensive 
 
 ## Step 1: Resolve Each Company to a Portal
 
+**Direct ATS API is the primary path once a company's ATS is known - freehire is a discovery mechanism for companies that aren't resolved yet, not a trusted primary source.** This was a confirmed failure mode: for a company already known to be on Ashby, a freehire company-scoped search returned 17 results against 75 actually-live postings on Ashby's own API - not a date-filter artifact, freehire's index for that company was just badly incomplete. Never treat freehire's result count as the true size of a company's job board once the direct API is available.
+
 For each company in scope, in order of preference:
 
-1. **Known resolution.** If `track_list.json` already has a working `freehire_company_slug` or a confirmed `ats` + slug, use it directly.
-2. **freehire company-facet lookup.** If unresolved, try `bun run .agents/skills/freehire-search/cli/src/cli.ts search -q "<company name>" --limit 5 --format json` and look for a consistent `company_slug` in the results. If found, use `--company <slug>` for the real search and write the resolved slug back into `track_list.json`.
-3. **Direct ATS API**, if `ats` is known (`greenhouse` or `ashby`) but not indexed by freehire:
-   - Greenhouse: `curl -s https://boards-api.greenhouse.io/v1/boards/<slug>/jobs`
+1. **Known ATS + slug.** If `track_list.json` already records a confirmed `ats` (`greenhouse` or `ashby`) and slug, go straight to the direct API - skip freehire entirely for this company:
+   - Greenhouse: `curl -s https://boards-api.greenhouse.io/v1/boards/<slug>/jobs?content=true`
    - Ashby: `curl -s https://api.ashbyhq.com/posting-api/job-board/<slug>`
-   Guess the slug from the company's careers URL (e.g. `careers.nebius.com` -> try `nebius`); if it 404s, try the company's other common name variants before giving up.
-4. **WebSearch fallback**, per `.claude/skills/web-research/SKILL.md`, if 1-3 all fail. Note the company as `websearch`-sourced for this run.
+2. **Unresolved company - use freehire for discovery.** Try `bun run .agents/skills/freehire-search/cli/src/cli.ts search -q "<company name>" --limit 5 --format json` to find a `company_slug` and infer the likely ATS from the `url` field's domain (`job-boards.greenhouse.io` or `jobs.ashbyhq.com`). Once you have a slug and ATS guess, verify it against the direct API (step 1's URLs) before trusting it - if the direct API 404s, fall back to using freehire itself as the search source for this company and note in `track_list.json` that direct-API resolution failed.
+3. **Neither works.** If the ATS is something other than Greenhouse/Ashby (Lever, Workday, a custom careers page) and freehire has no data either, use `WebSearch`/`WebFetch` per `.claude/skills/web-research/SKILL.md`. This is the case `/add-portal` exists for - if a company keeps landing here across runs, that's the signal to scaffold it a dedicated CLI instead of repeating ad hoc WebFetch every time.
 
-If a company can't be resolved by any path, say so plainly to the user and move on - don't silently skip it.
-
----
-
-## Step 2: Search Each Company (30-day bounded window)
-
-Apply a **30-day** recency filter (`--jobage 30` or the portal's equivalent) on company-scoped searches - bounded, but generous enough to catch most real turnover. This is a deliberate compromise, not a correctness guarantee:
-
-- **Known limitation:** some portals (confirmed on freehire for at least Fireworks AI and Together AI) tag postings with a bulk re-index timestamp rather than the true original posting date, which can push a genuinely-open, weeks-old posting outside even a 30-day window, or pull in one that's actually stale. `track_list.json`'s per-company notes record which companies exhibit this.
-- **If a company's result count looks suspiciously low** relative to its known size (check `track_list.json`'s notes or the company's own careers page result count), re-run that company's search with no `--jobage` filter as a one-off widening, and tell the user you did so and why.
-- Cap large companies (Google, Meta, NVIDIA, AWS) to a keyword-scoped query (e.g. `-q "inference"` or `-q "ML infrastructure"`) rather than pulling the whole company's job board - `track_list.json`'s notes field flags which companies need this.
+If a company can't be resolved by any path, say so plainly to the user and move on - don't silently skip it. Write whatever was learned (confirmed ATS + slug, or confirmed freehire incompleteness) back into `track_list.json` regardless of which path worked.
 
 ---
 
-## Step 3: Fast Title-Level Filter (cheap pass, internal only)
+## Step 2: Search Each Company
 
-For every result, apply a **title-only** pass - this is not the final verdict, just a cost-control step before the expensive full-JD read in Step 5:
+**When using a direct ATS API (Step 1.1):** fetch the full current listing - no date filter. The API only returns currently-open postings, so there is nothing to filter for availability, and these companies commonly run long-lived "evergreen" listings (a role open for a year is not stale, it's just still open) - a recency filter would silently discard real, current postings. Use the `department`/`departments` field from the response as the primary noise filter (see Step 3) instead of a date cutoff.
 
-- **Immediate exclude** on title alone: "Forward Deployed Engineer", "Security Engineer", "GRC Analyst", "Security Operations Lead", any Sales/Marketing/Recruiting/Product Manager/Product Designer/Solutions Architect/Account Executive/Customer Success/Facilities/Accounting title, "Staff Engineer"/"Staff Software Engineer"/"Staff ML Engineer"/"Staff Platform Engineer" (explicit Staff seniority tier - but **not** "Member of Technical Staff", which is a generic IC title, not a Staff tier).
-- **Keep for Step 5:** anything with Engineer/Research Engineer/Member of Technical Staff/Platform/Infrastructure/Inference in the title that isn't caught by an exclude rule above. When genuinely unsure, keep it - Step 5's full rubric is the real filter; this pass only cuts obvious noise.
+**When falling back to freehire (Step 1.2/1.3, no direct API available):** apply a **30-day** `--jobage` filter as a bounded compromise - freehire doesn't expose a department field, so without some filter a large company's result set is unmanageable. Known limitation: freehire tags some postings with a bulk re-index timestamp rather than the true posting date, which can still misfile things either direction; if a company's freehire-sourced result count looks suspiciously low, re-run with no `--jobage` filter as a disclosed one-off widening.
+
+Cap large companies (Google, Meta, NVIDIA, AWS) to a keyword-scoped query (e.g. `-q "inference"` or `-q "ML infrastructure"`) rather than pulling the whole company's job board - `track_list.json`'s notes field flags which companies need this, regardless of which path resolved them.
+
+---
+
+## Step 3: Fast Pre-Filter (cheap pass, internal only)
+
+Not the final verdict - a cost-control step before the expensive full-JD read in Step 5.
+
+**Department filter (direct-API path only, apply first).** Ashby's `department` field and Greenhouse's `departments` array classify each posting - drop anything not tagged as an engineering/product/design-type department (Ashby's `EPD` is the common label; Greenhouse varies by company, check the actual values returned). This alone typically removes well over half a large company's listings (GTM, sales, G&A, recruiting) before any title parsing, and it's far more reliable than keyword matching - it's what a title-only pass has no way to know when it excludes "GTM Engineer" one string at a time.
+
+**Title-level filter (apply to what survives the department filter, or to everything on the freehire-only path):**
+
+- **Immediate exclude** on title alone: "Forward Deployed Engineer", "Security Engineer", "GRC Analyst", "Security Operations Lead", any Sales/Marketing/Recruiting/Product Manager/Product Designer/Solutions Architect/Account Executive/Customer Success/Facilities/Accounting title, "Staff Engineer"/"Staff Software Engineer"/"Staff ML Engineer"/"Staff Platform Engineer" (explicit Staff seniority tier - but **not** "Member of Technical Staff", which is a generic IC title, not a Staff tier), "Engineering Manager"/"Manager"/"Head of Engineering" or any people-management title (management track is excluded regardless of the team's domain - see the classifier rubric's pattern 6).
+- **Keep for Step 5:** anything with Engineer/Research Engineer/Member of Technical Staff/Platform/Infrastructure/Inference in the title that isn't caught by an exclude rule above. When genuinely unsure, keep it - Step 5's full rubric is the real filter, and **title framing is not reliable in either direction**: "Software Engineer - Dedicated Inference" and "AI Inference Engineer" have both turned out, on full JD read, to be product-engineering and forward-deployed roles respectively despite infra-sounding titles, while "Software Engineer - Model Products" turned out to be core serving infra despite a product-sounding title. Don't let a promising or discouraging title substitute for Step 5.
 
 ## Step 4: Ghost-Job Check on Kept Results
 
@@ -71,7 +75,7 @@ Each agent returns a JSON array, one object per role:
   "corrected_url": "<only if the original URL was a ghost job and a live one was found>",
   "verdict": "strong_fit" | "adjacent" | "excluded",
   "verdict_reason": "<one sentence, quoting the JD if the reasoning isn't obvious from the title>",
-  "matched_exclude_pattern": "<one of the 5 hard-exclude pattern names, only if verdict is excluded>"
+  "matched_exclude_pattern": "<one of the 6 hard-exclude pattern names, only if verdict is excluded>"
 }
 ```
 
@@ -143,4 +147,4 @@ If any company could not be resolved to a working portal (Step 1 failure), list 
 3. The Step 3 title filter is a cost-control pre-filter, never the final verdict - a role only gets `strong_fit`/`adjacent`/`excluded` after Step 5's full-JD read.
 4. Company-scoped searches use a 30-day recency filter by default (Step 2) - widen to unfiltered only as a deliberate, disclosed one-off when a company's yield looks suspiciously low.
 5. `companies.md` is the human-editable source of truth for *which* companies to track; `track_list.json` is the agent-maintained record of *how* to search them. Keep them reconciled every run (Step 0.2).
-6. Every hard-exclude verdict names which of the 5 patterns triggered it, so a human can spot-check the classifier's judgment later.
+6. Every hard-exclude verdict names which of the 6 patterns triggered it, so a human can spot-check the classifier's judgment later.

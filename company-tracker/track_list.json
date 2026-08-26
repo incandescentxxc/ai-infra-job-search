@@ -81,15 +81,15 @@
     "baseten": {
       "name": "Baseten",
       "careers_url": "https://www.baseten.co/careers/",
-      "ats": "unverified",
+      "ats": "ashby",
       "portal_resolution": {
-        "freehire_company_slug": null,
-        "notes": "Not yet resolved."
+        "freehire_company_slug": "baseten",
+        "notes": "CORRECTED 2026-08-26: freehire --company baseten returned only 17 postings; the direct Ashby API (api.ashbyhq.com/posting-api/job-board/baseten) has 75 live postings - freehire is significantly incomplete for this company, independent of any date filter (a posting only 23 days old was still missing from freehire). Direct Ashby API is now the resolved primary path; freehire should not be relied on for this company. Ashby department field (EPD/GTM/G&A/Talent) used as primary noise filter - EPD contains 40/75 postings, the rest are non-engineering."
       },
       "status": "active",
       "added_date": "2026-08-26",
       "added_source": "user-provided (initial watchlist)",
-      "last_scraped_date": null
+      "last_scraped_date": "2026-08-26"
     },
     "runpod": {
       "name": "Runpod",
